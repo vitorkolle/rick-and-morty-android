@@ -75,7 +75,7 @@ fun ListAllCharacters(modifier: Modifier = Modifier) {
 
     Column {
         OutlinedTextField(value = id.value, onValueChange = {id.value = it})
-        Text(text = character.value.name)
+        Text(modifier = Modifier.padding(top = 50.dp), text = character.value.name)
         Text(text = character.value.origin?.name ?: "")
         Text(text = character.value.species)
         Text(text = character.value.gender)
