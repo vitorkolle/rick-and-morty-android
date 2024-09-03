@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Surface
@@ -33,6 +35,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.rickandmorty.R
 import com.example.rickandmorty.model.Character
@@ -43,7 +46,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 @Composable
-fun CharactersList(modifier: Modifier = Modifier) {
+fun CharactersList(modifier: Modifier = Modifier, controleDeNavegacao: NavHostController) {
 
     var characterList by remember {
         mutableStateOf(listOf<Character>())
@@ -88,7 +91,7 @@ fun CharactersList(modifier: Modifier = Modifier) {
             Spacer(modifier = Modifier.height(24.dp))
             LazyColumn {
                 items(characterList){ it ->
-                    CharacterCard(character = it)
+                    CharacterCard(character = it, controleDeNavegacao)
                 }
             }
         }
@@ -96,47 +99,59 @@ fun CharactersList(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun CharacterCard(character: Character?) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(100.dp)
-            .padding(bottom = 6.dp),
-        colors = CardDefaults
-            .cardColors(
-                containerColor = Color(0xFF188F1A)
-            ),
-        border = BorderStroke(width = 2.dp, color = Color.White)
+fun CharacterCard(character: Character, controleDeNavegacao: NavHostController) {
+    Button(
+        onClick = {
+            controleDeNavegacao.navigate("DetalhesPersonagem/${character.id}")
+        },
+        colors = ButtonColors(
+            containerColor = Color.Transparent,
+            contentColor = Color.Transparent,
+            disabledContentColor = Color.Transparent,
+            disabledContainerColor = Color.Transparent
+        )
     ) {
-        Row(
-            modifier = Modifier.fillMaxSize()
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp)
+                .padding(bottom = 6.dp),
+            colors = CardDefaults
+                .cardColors(
+                    containerColor = Color(0xFF188F1A)
+                ),
+            border = BorderStroke(width = 2.dp, color = Color.White)
         ) {
-           Card(
-               modifier = Modifier.size(100.dp)
-           ) {
-               AsyncImage(
-                   model = character?.image,
-                   contentDescription = "",
-                   modifier = Modifier.fillMaxSize()
-               )
-           }
-            Column(
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(start = 16.dp)
+            Row(
+                modifier = Modifier.fillMaxSize()
             ) {
-                Text(
-                    text = character?.name!!,
-                    fontSize = 24.sp,
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold
-
-                )
-                Text(
-                    text = character.species,
-                    color = Color.White
+                Card(
+                    modifier = Modifier.size(100.dp)
+                ) {
+                    AsyncImage(
+                        model = character?.image,
+                        contentDescription = "",
+                        modifier = Modifier.fillMaxSize()
                     )
+                }
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(start = 16.dp)
+                ) {
+                    Text(
+                        text = character?.name!!,
+                        fontSize = 24.sp,
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold
+
+                    )
+                    Text(
+                        text = character.species,
+                        color = Color.White
+                    )
+                }
             }
         }
     }
@@ -145,11 +160,11 @@ fun CharacterCard(character: Character?) {
 @Preview
 @Composable
 private fun CharacterCardPreview() {
-    CharacterCard(character = null)
+   // CharacterCard(character = null)
 }
 
 @Preview(showSystemUi = true)
 @Composable
 private fun CharactersListPreview() {
-    CharactersList()
+   // CharactersList()
 }

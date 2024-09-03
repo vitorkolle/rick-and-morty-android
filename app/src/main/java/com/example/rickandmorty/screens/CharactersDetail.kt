@@ -13,38 +13,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.rickandmorty.model.Character
+import com.example.rickandmorty.model.Episode
 import com.example.rickandmorty.service.RetrofitFactory
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 @Composable
-fun CharactersDetail(modifier: Modifier = Modifier) {
-
-    val characterList = remember {
-        mutableStateOf(listOf<Character>())
-    }
+fun CharactersDetail(modifier: Modifier = Modifier, id: Int) {
 
     val character = remember {
         mutableStateOf(Character())
     }
 
-    val id = remember {
-        mutableStateOf("")
-    }
-
-    Button(modifier = Modifier.padding(top = 55.dp), onClick = {
-
         //efetuar a chamada para a api
-
-        val callCharacterById = RetrofitFactory().getCharacterService().getCharacterById(id.value.toInt())
+        val callCharacterById = RetrofitFactory().getCharacterService().getCharacterById(id)
 
         callCharacterById.enqueue(object : Callback<Character> {
             override fun onResponse(p0: Call<Character>, p1: Response<Character>) {
                 character.value = p1.body()!!
                 Log.i(
-                    "RICK_MORTY",
-                    "${character.value.name} - ${character.value.origin!!.name} - ${character.value.gender}"
+                    "DV!",
+                    "Deu Certo"
                 )
             }
 
@@ -53,13 +43,8 @@ fun CharactersDetail(modifier: Modifier = Modifier) {
             }
 
         })
-    }) {
-        Text(text = "Buscar")
-    }
-
 
     Column {
-        OutlinedTextField(value = id.value, onValueChange = {id.value = it})
         AsyncImage(model = character.value.image, contentDescription = "", modifier = Modifier.padding(top = 50.dp))
         Text(text = character.value.name)
         Text(text = character.value.origin?.name ?: "")
@@ -71,4 +56,11 @@ fun CharactersDetail(modifier: Modifier = Modifier) {
     }
 
 
+}
+
+@Composable
+fun CriarCardEpisodio(modifier: Modifier = Modifier) {
+    val episode = remember {
+        mutableStateOf(Episode())
+    }
 }
