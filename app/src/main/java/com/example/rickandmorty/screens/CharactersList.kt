@@ -126,7 +126,8 @@ fun CharacterCard(character: Character, controleDeNavegacao: NavHostController) 
                 modifier = Modifier.fillMaxSize()
             ) {
                 Card(
-                    modifier = Modifier.size(100.dp)
+                    modifier = Modifier
+                        .size(100.dp)
                 ) {
                     AsyncImage(
                         model = character?.image,

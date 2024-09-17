@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
                         route = "DetalhesPersonagem/{characterId}",
                         arguments = listOf(navArgument("characterId") { type = NavType.IntType })
                     ) { backStackEntry ->
-                        val characterId = backStackEntry.arguments?.getInt("characterId") ?: 1
+                        val characterId = backStackEntry.arguments?.getInt("characterId") ?: 0
                         CharactersDetail(id = characterId)
                     }
                }
